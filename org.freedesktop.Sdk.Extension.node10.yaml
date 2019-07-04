@@ -8,6 +8,8 @@ separate-locales: false
 appstream-compose: false
 build-options:
   prefix: /usr/lib/sdk/node10
+  prepend-path: /usr/lib/sdk/node10/bin
+  prepend-ld-library-path: /usr/lib/sdk/node10/lib
 modules:
   - name: node
     sources:
