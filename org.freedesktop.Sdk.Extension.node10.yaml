@@ -14,6 +14,8 @@ modules:
       - type: archive
         url: https://nodejs.org/dist/v10.15.3/node-v10.15.3.tar.gz
         sha256: db460a63d057ac015b75bb6a879fcbe2fefaaf22afa4b6f6445b9db61ce2270d
+    modules:
+      - shared-modules/python2.7/python-2.7.json
 
   - name: scripts
     buildsystem: simple
