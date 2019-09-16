@@ -1,14 +1,26 @@
 app-id: org.freedesktop.Sdk.Extension.node10
-branch: '18.08'
+branch: '19.08'
 runtime: org.freedesktop.Sdk
-runtime-version: '18.08'
+runtime-version: '19.08'
 sdk: org.freedesktop.Sdk
 build-extension: true
 separate-locales: false
 appstream-compose: false
 build-options:
   prefix: /usr/lib/sdk/node10
+  prepend-path: /usr/lib/sdk/node10/bin
+  prepend-ld-library-path: /usr/lib/sdk/node10/lib
+cleanup:
+  - '/bin/pip*'
+  - '/bin/python*config'
+  - '/bin/smtpd.py'
+  - '/lib/pkgconfig'
+  - '/share/doc'
+  - '/share/man'
+  - '/share/systemtap'
 modules:
+  - shared-modules/python2.7/python-2.7.json
+
   - name: node
     sources:
       - type: archive
@@ -18,13 +30,17 @@ modules:
   - name: scripts
     buildsystem: simple
     build-commands:
-      - 'cp enable.sh install.sh /usr/lib/sdk/node10'
+      - 'cp {enable,install{,-sdk}}.sh /usr/lib/sdk/node10'
       - 'mkdir -p /usr/lib/sdk/node10/share/metainfo'
       - 'cp org.freedesktop.Sdk.Extension.node10.appdata.xml /usr/lib/sdk/node10/share/metainfo'
       - 'appstream-compose --basename=org.freedesktop.Sdk.Extension.node10 --prefix=${FLATPAK_DEST} --origin=flatpak org.freedesktop.Sdk.Extension.node10'
     sources:
       - type: script
         dest-filename: install.sh
+        commands:
+          - 'install -Dm 755 /usr/lib/sdk/node10/bin/node ${FLATPAK_DEST}/node/bin/node'
+      - type: script
+        dest-filename: install-sdk.sh
         commands:
           - 'cp -r /usr/lib/sdk/node10 ${FLATPAK_DEST}/node'
       - type: script
