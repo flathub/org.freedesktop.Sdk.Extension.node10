@@ -14,6 +14,11 @@ modules:
       - type: archive
         url: https://nodejs.org/dist/v10.17.0/node-v10.17.0.tar.xz
         sha256: 412667d76bd5273c07cb69c215998109fd5bb35c874654f93e6a0132d666c58e
+    config-opts:
+      - '--openssl-use-def-ca-store'
+      - '--shared-openssl'
+      - '--shared-zlib'
+      - '--with-intl=system-icu'
 
   - name: scripts
     buildsystem: simple
