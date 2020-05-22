@@ -26,6 +26,11 @@ modules:
       - type: archive
         url: https://nodejs.org/dist/v10.17.0/node-v10.17.0.tar.xz
         sha256: 412667d76bd5273c07cb69c215998109fd5bb35c874654f93e6a0132d666c58e
+        x-checker-data:
+          type: html
+          url: https://nodejs.org/dist/latest-v10.x/
+          url-pattern: (node-v[\d\.-]+.tar.xz)
+          version-pattern: node-v([\d\.-]+).tar.xz
     config-opts:
       - '--openssl-use-def-ca-store'
       - '--shared-openssl'
