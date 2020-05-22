@@ -11,52 +11,54 @@ build-options:
   prepend-path: /usr/lib/sdk/node10/bin
   prepend-ld-library-path: /usr/lib/sdk/node10/lib
 cleanup:
-  - '/bin/pip*'
-  - '/bin/python*config'
-  - '/bin/smtpd.py'
-  - '/lib/pkgconfig'
-  - '/share/doc'
-  - '/share/man'
-  - '/share/systemtap'
+  - /bin/pip*
+  - /bin/python*config
+  - /bin/smtpd.py
+  - /lib/pkgconfig
+  - /share/doc
+  - /share/man
+  - /share/systemtap
 modules:
   - shared-modules/python2.7/python-2.7.json
 
   - name: node
     sources:
       - type: archive
-        url: https://nodejs.org/dist/v10.17.0/node-v10.17.0.tar.xz
-        sha256: 412667d76bd5273c07cb69c215998109fd5bb35c874654f93e6a0132d666c58e
+        url: https://nodejs.org/dist/latest-v10.x/node-v10.20.1.tar.xz
+        sha256: ee1f88a04c608aeda1299bbcb0895eebb6394e901f03398c377236905d95f492
         x-checker-data:
           type: html
           url: https://nodejs.org/dist/latest-v10.x/
           url-pattern: (node-v[\d\.-]+.tar.xz)
           version-pattern: node-v([\d\.-]+).tar.xz
+        size: 21947588
     config-opts:
-      - '--openssl-use-def-ca-store'
-      - '--shared-openssl'
-      - '--shared-zlib'
-      - '--with-intl=system-icu'
+      - --openssl-use-def-ca-store
+      - --shared-openssl
+      - --shared-zlib
+      - --with-intl=system-icu
 
   - name: scripts
     buildsystem: simple
     build-commands:
-      - 'cp {enable,install{,-sdk}}.sh /usr/lib/sdk/node10'
-      - 'mkdir -p /usr/lib/sdk/node10/share/metainfo'
-      - 'cp org.freedesktop.Sdk.Extension.node10.appdata.xml /usr/lib/sdk/node10/share/metainfo'
-      - 'appstream-compose --basename=org.freedesktop.Sdk.Extension.node10 --prefix=${FLATPAK_DEST} --origin=flatpak org.freedesktop.Sdk.Extension.node10'
+      - cp {enable,install{,-sdk}}.sh /usr/lib/sdk/node10
+      - mkdir -p /usr/lib/sdk/node10/share/metainfo
+      - cp org.freedesktop.Sdk.Extension.node10.appdata.xml /usr/lib/sdk/node10/share/metainfo
+      - appstream-compose --basename=org.freedesktop.Sdk.Extension.node10 --prefix=${FLATPAK_DEST}
+        --origin=flatpak org.freedesktop.Sdk.Extension.node10
     sources:
       - type: script
         dest-filename: install.sh
         commands:
-          - 'install -Dm 755 /usr/lib/sdk/node10/bin/node ${FLATPAK_DEST}/node/bin/node'
+          - install -Dm 755 /usr/lib/sdk/node10/bin/node ${FLATPAK_DEST}/node/bin/node
       - type: script
         dest-filename: install-sdk.sh
         commands:
-          - 'cp -r /usr/lib/sdk/node10 ${FLATPAK_DEST}/node'
+          - cp -r /usr/lib/sdk/node10 ${FLATPAK_DEST}/node
       - type: script
         commands:
-          - 'export PATH=$PATH:/usr/lib/sdk/node10/bin'
-          - 'export npm_config_nodedir=/usr/lib/sdk/node10'
+          - export PATH=$PATH:/usr/lib/sdk/node10/bin
+          - export npm_config_nodedir=/usr/lib/sdk/node10
         dest-filename: enable.sh
       - type: file
         path: org.freedesktop.Sdk.Extension.node10.appdata.xml
